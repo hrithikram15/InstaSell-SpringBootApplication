@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import com.user.exception.UserAlreadyExistsException;
 import com.user.model.User;
 import com.user.service.UserServiceImpl;
 
+@CrossOrigin(origins="http://localhost:4200")
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -25,6 +28,7 @@ public class UserController {
 	private UserServiceImpl userService;
 	
 	private ResponseEntity<?> responseEntity;
+	
 	
 	@PostMapping("/register")
 	public ResponseEntity<?> saveUserHandler(@RequestBody User user) throws UserAlreadyExistsException{

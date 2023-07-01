@@ -1,6 +1,5 @@
 package com.order.service;
 
-import java.util.List;
 import java.util.*;
 
 
@@ -23,6 +22,8 @@ import com.order.repository.OrderRepository;
 public class OrderServiceImpl implements OrderService{
 	
 	private static final String ORDER_PLACED = "Placed";  
+	private static final String ORDER_CANCELLED = "Cancelled";  
+
 	
 	@Autowired
 	private OrderRepository orderRepo;
@@ -88,4 +89,38 @@ List<OrderProductQuantity> productQuantityList = orderInput.getOrderProductQuant
 		
 	}
 
+	@Override
+	public Optional<OrderDetail> getOrderDetailsById(Integer orderId) {
+		// TODO Auto-generated method stub
+		Optional<OrderDetail> optional = this.orderRepo.findById(orderId);
+		
+		
+		
+		return optional;
+	}
+
+	@Override
+	public OrderDetail cancelOrderDetailsById(OrderDetail order, Integer orderId) {
+		// TODO Auto-generated method stub
+		Optional<OrderDetail> orders = this.orderRepo.findById(orderId);
+		
+		OrderDetail obj = null;
+		OrderDetail updatedOrder = null;
+		
+		obj = orders.get();
+		
+		obj.setOrderAlternateContactNumber(order.getOrderAlternateContactNumber());
+		obj.setOrderContactNumber(order.getOrderContactNumber());
+		obj.setOrderAmount(order.getOrderAmount());
+		obj.setOrderFullName(order.getOrderFullName());
+		obj.setOrderFullOrder(order.getOrderFullOrder());
+		obj.setProductId(order.getProductId());
+		obj.setUserName(order.getUserName());
+		obj.setOrderStatus(ORDER_CANCELLED);
+		
+		updatedOrder = this.orderRepo.save(obj);
+		
+		
+		return updatedOrder;
+	}
 }
